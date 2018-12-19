@@ -21,6 +21,18 @@ class DemoController(val lineMessagingClient: LineMessagingClient) {
             "test2" -> "test2 dazo"
             else -> text
         }
+
+        // Check url
+        // Download Movie
+        val command = "youtube-dl -x --audio-format m4a -o temp.mp3 https://www.youtube.com/watch?v=c3xxHO1ML5o"
+        val process = Runtime.getRuntime().exec(command)
+        process.waitFor()
+        process.destroy()
+
+        // Download Convert to MP3
+        // Send
+
+
         lineMessagingClient.replyMessage(ReplyMessage(replyToken, TextMessage(replyText)))
     }
 }
