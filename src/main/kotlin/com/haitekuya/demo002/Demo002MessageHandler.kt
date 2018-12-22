@@ -7,6 +7,7 @@ import com.linecorp.bot.model.event.message.TextMessageContent
 import com.linecorp.bot.model.message.TextMessage
 import com.linecorp.bot.spring.boot.annotation.EventMapping
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler
+import java.util.*
 
 @LineMessageHandler
 class Demo002MessageHandler(val lineMessagingClient: LineMessagingClient) {
@@ -25,7 +26,8 @@ class Demo002MessageHandler(val lineMessagingClient: LineMessagingClient) {
         }
 
         // Download Movie
-        val command = "youtube-dl -x --audio-format m4a -o temp.mp3 $text"
+        val tmpFileName = UUID.randomUUID().toString() + ".m4a"
+        val command = "youtube-dl -x --audio-format m4a -o $tmpFileName $text"
         val process = Runtime.getRuntime().exec(command)
         process.waitFor()
         process.destroy()
@@ -33,8 +35,6 @@ class Demo002MessageHandler(val lineMessagingClient: LineMessagingClient) {
         // Upload to firebase
 
         // Send reply message
-
-
         lineMessagingClient.replyMessage(ReplyMessage(replyToken, TextMessage("ok")))
     }
 
