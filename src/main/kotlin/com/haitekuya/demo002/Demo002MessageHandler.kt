@@ -8,8 +8,12 @@ import com.linecorp.bot.model.message.AudioMessage
 import com.linecorp.bot.model.message.TextMessage
 import com.linecorp.bot.spring.boot.annotation.EventMapping
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler
+import org.jetbrains.annotations.NotNull
+import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.http.HttpStatus
+import org.springframework.stereotype.Component
 import org.springframework.stereotype.Controller
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.ResponseBody
@@ -20,9 +24,7 @@ import java.util.*
 
 
 @LineMessageHandler
-class Demo002MessageHandler(val lineMessagingClient: LineMessagingClient) {
-
-    private val url = "https://test.abc/audio/"
+class Demo002MessageHandler(val lineMessagingClient: LineMessagingClient, val demo002Properties: Demo002Properties) {
 
     @EventMapping
     fun handleTextMessageEvent(event: MessageEvent<TextMessageContent>) {
@@ -45,7 +47,7 @@ class Demo002MessageHandler(val lineMessagingClient: LineMessagingClient) {
         process.destroy()
 
         // Send reply message
-        lineMessagingClient.replyMessage(ReplyMessage(replyToken, AudioMessage(url + tmpFileName, 60000)))
+        lineMessagingClient.replyMessage(ReplyMessage(replyToken, AudioMessage(demo002Properties.hostName + tmpFileName, 60000)))
     }
 
     private fun sendErrorMessage(replyToken: String, message: String) =
@@ -64,6 +66,14 @@ class Demo002Controller {
         }
         return Files.readAllBytes(path)
     }
+}
+
+@Validated
+@Component
+@ConfigurationProperties(prefix = "demo002")
+class Demo002Properties {
+    @NotNull
+    lateinit var hostName: String
 }
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
