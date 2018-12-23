@@ -32,7 +32,7 @@ class Demo002MessageHandler(val lineMessagingClient: LineMessagingClient, val de
         val replyToken = event.replyToken
 
         // check text
-        val regex = Regex("^https://www.youtube.com/watch\\?v=\\w{3,15}$")
+        val regex = Regex("^https://www.youtube.com/watch\\?v=[A-Za-z0-9_-]{11}$")
 
         if (!regex.containsMatchIn(text)) {
             sendErrorMessage(replyToken, "Invalid youtube url")
@@ -46,8 +46,24 @@ class Demo002MessageHandler(val lineMessagingClient: LineMessagingClient, val de
         process.waitFor()
         process.destroy()
 
+        val command2 = arrayOf(
+            "/bin/sh",
+            "-c",
+            "ffprobe -i /tmp/$tmpFileName -show_format -v quiet | grep duration | sed -n 's/duration=//p' > /tmp/$tmpFileName.duration"
+        )
+        val process2 = Runtime.getRuntime().exec(command2)
+        process2.waitFor()
+        process2.destroy()
+
+        val duration = Files.readString(Path.of("/tmp/$tmpFileName.duration")).substringBefore(".")
+
         // Send reply message
-        lineMessagingClient.replyMessage(ReplyMessage(replyToken, AudioMessage(demo002Properties.hostName + tmpFileName, 60000)))
+        lineMessagingClient.replyMessage(
+            ReplyMessage(
+                replyToken,
+                AudioMessage(demo002Properties.hostName + "/audio/" + tmpFileName, duration.toInt() * 1000)
+            )
+        )
     }
 
     private fun sendErrorMessage(replyToken: String, message: String) =
