@@ -1,4 +1,4 @@
-package com.haitekuya.demo002
+package com.haitekuya.audioreply
 
 import com.linecorp.bot.client.LineMessagingClient
 import com.linecorp.bot.model.ReplyMessage
@@ -24,28 +24,31 @@ import java.util.*
 
 
 @LineMessageHandler
-class Demo002MessageHandler(val lineMessagingClient: LineMessagingClient, val demo002Properties: Demo002Properties) {
+class AudioReplyMessageHandler(
+    val lineMessagingClient: LineMessagingClient,
+    val audioReplyProperties: AudioReplyProperties
+) {
 
     @EventMapping
     fun handleTextMessageEvent(event: MessageEvent<TextMessageContent>) {
         val text = event.message.text
         val replyToken = event.replyToken
+        val tmpFileName = UUID.randomUUID().toString() + ".m4a"
 
-        // check text
+        // Check whether text is youtube url or not
         val regex = Regex("^https://www.youtube.com/watch\\?v=[A-Za-z0-9_-]{11}$")
-
         if (!regex.containsMatchIn(text)) {
             sendErrorMessage(replyToken, "Invalid youtube url")
             return
         }
 
-        // Download Movie
-        val tmpFileName = UUID.randomUUID().toString() + ".m4a"
+        // Download movie and save as m4a audio file
         val command = "youtube-dl -x --audio-format m4a -o /tmp/$tmpFileName $text"
         val process = Runtime.getRuntime().exec(command)
         process.waitFor()
         process.destroy()
 
+        // Make duration file by using ffprobe
         val command2 = arrayOf(
             "/bin/sh",
             "-c",
@@ -55,13 +58,14 @@ class Demo002MessageHandler(val lineMessagingClient: LineMessagingClient, val de
         process2.waitFor()
         process2.destroy()
 
+        // Ignore after the decimal point
         val duration = Files.readString(Path.of("/tmp/$tmpFileName.duration")).substringBefore(".")
 
-        // Send reply message
+        // Send reply message by reply message (needs to reply in 30 seconds.)
         lineMessagingClient.replyMessage(
             ReplyMessage(
                 replyToken,
-                AudioMessage(demo002Properties.hostName + "/audio/" + tmpFileName, duration.toInt() * 1000)
+                AudioMessage(audioReplyProperties.hostName + "/audio/" + tmpFileName, duration.toInt() * 1000)
             )
         )
     }
@@ -71,7 +75,7 @@ class Demo002MessageHandler(val lineMessagingClient: LineMessagingClient, val de
 }
 
 @Controller
-class Demo002Controller {
+class AudioReplyController {
 
     @GetMapping("/audio/{file}.m4a", produces = ["audio/m4a"])
     @ResponseBody
@@ -84,11 +88,9 @@ class Demo002Controller {
     }
 }
 
-@Validated
 @Component
-@ConfigurationProperties(prefix = "demo002")
-class Demo002Properties {
-    @NotNull
+@ConfigurationProperties(prefix = "audio.reply")
+class AudioReplyProperties {
     lateinit var hostName: String
 }
 

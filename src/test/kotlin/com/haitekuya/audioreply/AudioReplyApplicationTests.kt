@@ -1,4 +1,4 @@
-package com.haitekuya.demo002
+package com.haitekuya.audioreply
 
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner
 
 @RunWith(SpringRunner::class)
 @SpringBootTest
-class Demo002ApplicationTests {
+class AudioReplyApplicationTests {
 
 	@Test
 	fun contextLoads() {

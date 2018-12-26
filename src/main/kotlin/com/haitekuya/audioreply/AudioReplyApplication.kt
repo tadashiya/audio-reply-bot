@@ -1,12 +1,12 @@
-package com.haitekuya.demo002
+package com.haitekuya.audioreply
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class Demo002Application
+class AudioReplyApplication
 
 	fun main(args: Array<String>) {
-		runApplication<Demo002Application>(*args)
+		runApplication<AudioReplyApplication>(*args)
 	}
 
