@@ -2,3 +2,6 @@
 
 Audio Reply Bot replys audio file to LINE when you send Youtube url to the bot.
 
+== Installation on Heroku
+
+1. Use buildpacks
