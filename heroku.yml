@@ -8,4 +8,4 @@ release:
   command:
     - rake db:migrate
 run:
-  web: java -jar build/libs/demo-*.jar --server.port=$PORT
+  web: java -jar build/libs/demo-*.jar
