@@ -5,4 +5,4 @@ build:
     - ffmpeg
     - youtube-dl
 run:
-  web: java -jar build/libs/audioreply-*.jar
+  web: java -jar build/libs/audioreply-*.jar --server.port=$PORT

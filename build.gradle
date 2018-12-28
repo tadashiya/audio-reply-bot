@@ -9,9 +9,9 @@ buildscript {
 		maven { url 'https://repo.spring.io/milestone' }
 	}
 	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-		classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
-		classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}" as Object)
+		classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}" as Object)
+		classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}" as Object)
 	}
 }
 
@@ -25,10 +25,16 @@ group = 'com.haitekuya'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 compileKotlin {
-	kotlinOptions.jvmTarget = "1.8"
+	kotlinOptions {
+		freeCompilerArgs = ["-Xjsr305=strict"]
+		jvmTarget = "1.8"
+	}
 }
 compileTestKotlin {
-	kotlinOptions.jvmTarget = "1.8"
+	kotlinOptions {
+		freeCompilerArgs = ["-Xjsr305=strict"]
+		jvmTarget = "1.8"
+	}
 }
 
 repositories {
