@@ -4,8 +4,5 @@ build:
   packages:
     - ffmpeg
     - youtube-dl
-release:
-  command:
-    - rake db:migrate
 run:
   web: java -jar build/libs/demo-*.jar
