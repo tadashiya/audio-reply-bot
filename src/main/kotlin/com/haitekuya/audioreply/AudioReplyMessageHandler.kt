@@ -43,7 +43,11 @@ class AudioReplyMessageHandler(
         }
 
         // Download movie and save as m4a audio file
-        val command = "youtube-dl -x --audio-format m4a -o /tmp/$tmpFileName $text"
+        val command = arrayOf(
+            "/bin/sh",
+            "-c",
+            "youtube-dl -x --audio-format m4a -o /tmp/$tmpFileName $text"
+        )
         val process = Runtime.getRuntime().exec(command)
         process.waitFor()
         process.destroy()
