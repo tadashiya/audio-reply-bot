@@ -96,7 +96,7 @@ class AudioReplyController {
     fun getList() =
         Files.list(Path.of("/tmp"))
             .map { it.fileName.toString() }
-            .collect(Collectors.joining())
+            .collect(Collectors.joining("\n"))
 }
 
 @Component
