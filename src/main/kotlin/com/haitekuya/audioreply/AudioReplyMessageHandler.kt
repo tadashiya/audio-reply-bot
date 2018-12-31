@@ -93,7 +93,7 @@ class AudioReplyController {
 
     @GetMapping("/list")
     @ResponseBody
-    fun getList(@PathVariable file: String) =
+    fun getList() =
         Files.list(Path.of("/tmp"))
             .map { it.fileName.toString() }
             .collect(Collectors.joining())
