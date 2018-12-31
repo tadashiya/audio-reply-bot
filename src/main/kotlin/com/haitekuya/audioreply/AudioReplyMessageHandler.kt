@@ -8,12 +8,10 @@ import com.linecorp.bot.model.message.AudioMessage
 import com.linecorp.bot.model.message.TextMessage
 import com.linecorp.bot.spring.boot.annotation.EventMapping
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler
-import org.jetbrains.annotations.NotNull
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Controller
-import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.ResponseBody
@@ -21,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseStatus
 import java.nio.file.Files
 import java.nio.file.Path
 import java.util.*
+import java.util.stream.Collectors
 
 
 @LineMessageHandler
@@ -91,6 +90,13 @@ class AudioReplyController {
         }
         return Files.readAllBytes(path)
     }
+
+    @GetMapping("/list")
+    @ResponseBody
+    fun getList(@PathVariable file: String) =
+        Files.list(Path.of("/tmp"))
+            .map { it.fileName.toString() }
+            .collect(Collectors.joining())
 }
 
 @Component
