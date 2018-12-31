@@ -42,12 +42,7 @@ class AudioReplyMessageHandler(
         }
 
         // Download movie and save as m4a audio file
-        val command = arrayOf(
-            "/bin/sh",
-            "-c",
-            "youtube-dl -x --audio-format m4a -o /tmp/$tmpFileName $text"
-        )
-        val process = Runtime.getRuntime().exec(command)
+        val process = Runtime.getRuntime().exec("youtube-dl -x --audio-format m4a -o /tmp/$tmpFileName $text")
         process.waitFor()
         process.destroy()
 
@@ -97,6 +92,16 @@ class AudioReplyController {
         Files.list(Path.of("/tmp"))
             .map { it.fileName.toString() }
             .collect(Collectors.joining("\n"))
+
+    @GetMapping("/file/{file}")
+    @ResponseBody
+    fun getFile(@PathVariable file: String): ByteArray {
+        val path = Path.of("/tmp/$file")
+        if (!Files.exists(path)) {
+            throw NotFoundException()
+        }
+        return Files.readAllBytes(path)
+    }
 }
 
 @Component
