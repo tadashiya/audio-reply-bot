@@ -45,7 +45,7 @@ class AudioReplyMessageHandler(
         val command = arrayOf(
             "/bin/sh",
             "-c",
-            "youtube-dl -x --audio-format m4a -o /tmp/$tmpFileName $text"
+            "/app/youtube-dl -x --audio-format m4a -o /tmp/$tmpFileName $text"
         )
         val process = Runtime.getRuntime().exec(command)
         process.waitFor()
