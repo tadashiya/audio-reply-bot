@@ -57,8 +57,7 @@ class AudioReplyMessageHandler(
         process2.destroy()
 
         // Ignore after the decimal point
-//        val duration = Files.readString(Path.of("/tmp/$tmpFileName.duration")).substringBefore(".")
-        val duration = "60"
+        val duration = Files.readString(Path.of("/tmp/$tmpFileName.duration")).substringBefore(".")
 
         // Send reply message by reply message (needs to reply in 30 seconds.)
         lineMessagingClient.replyMessage(
