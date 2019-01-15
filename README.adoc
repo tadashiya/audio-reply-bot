@@ -9,4 +9,12 @@ Audio Reply Bot replys audio file to LINE when you send Youtube url to the bot.
 https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest
 https://github.com/tadashiya/heroku-buildpack-youtube-dl
 
-2. Deploy by GitHub
+2. Add Config Vars
+
+|===
+|AUDIO_REPLY_HOST_NAME| Host name
+|LINE_BOT_CHANNEL_SECRET|LINE Channel Secret
+|LINE_BOT_CHANNEL_TOKEN|LINE Channel token
+|===
+
+3. Deploy by GitHub
