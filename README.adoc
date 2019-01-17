@@ -1,5 +1,7 @@
 = Audio Reply Bot
 
+image:https://travis-ci.com/tadashiya/audio-reply-bot.svg?branch=master["Build Status", link="https://travis-ci.com/tadashiya/audio-reply-bot"]
+
 Audio Reply Bot replies audio file to LINE when you send Youtube url to the bot.
 
 == Installation on Heroku
