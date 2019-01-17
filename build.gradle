@@ -4,14 +4,16 @@ buildscript {
 		springBootVersion = '2.2.0.BUILD-SNAPSHOT'
 	}
 	repositories {
-		mavenCentral()
+		jcenter()
 		maven { url 'https://repo.spring.io/snapshot' }
 		maven { url 'https://repo.spring.io/milestone' }
+		maven { url 'https://plugins.gradle.org/m2/' }
 	}
 	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}" as Object)
-		classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}" as Object)
-		classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}" as Object)
+		classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+		classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}"
+		classpath "org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}"
+		classpath "org.jlleitschuh.gradle:ktlint-gradle:6.3.1"
 	}
 }
 
@@ -20,6 +22,7 @@ apply plugin: 'kotlin-spring'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'org.jlleitschuh.gradle.ktlint'
 
 group = 'com.haitekuya'
 version = '0.0.1-SNAPSHOT'
@@ -38,7 +41,7 @@ compileTestKotlin {
 }
 
 repositories {
-	mavenCentral()
+	jcenter()
 	maven { url 'https://repo.spring.io/snapshot' }
 	maven { url 'https://repo.spring.io/milestone' }
 }

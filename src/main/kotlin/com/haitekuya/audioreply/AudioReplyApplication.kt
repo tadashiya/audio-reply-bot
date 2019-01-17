@@ -6,7 +6,6 @@ import org.springframework.boot.runApplication
 @SpringBootApplication
 class AudioReplyApplication
 
-	fun main(args: Array<String>) {
-		runApplication<AudioReplyApplication>(*args)
-	}
-
+fun main(args: Array<String>) {
+    runApplication<AudioReplyApplication>(*args)
+}
